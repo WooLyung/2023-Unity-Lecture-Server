@@ -16,7 +16,7 @@ def threaded(client_socket, addr):
             break
     client_socket.close()
 
-HOST = '127.0.0.1'
+HOST = ''
 PORT = 9172
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
@@ -27,6 +27,6 @@ server_socket.listen()
 print('server start')
 while True:
     client_socket, addr = server_socket.accept()
-    start_new_thread(threaded(client_socket, addr))
+    start_new_thread(threaded, (client_socket, addr))
 
 server_socket.close()
