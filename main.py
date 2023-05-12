@@ -13,7 +13,7 @@ def evt_thread():
     while True:
         while len(evt_queue) > 0:
             evt = evt_queue.pop(0)
-            print(evt)
+            # print(evt)
             if evt['evt'] == 'join':
                 ''
             elif evt['evt'] == 'quit':
@@ -38,13 +38,24 @@ def evt_thread():
 
 def threaded(client_socket, addr, id):
     print('client connected: ', addr[0], ':', addr[1], sep='')
+    recv_data = ""
     while True:
         try:
-            data = client_socket.recv(1024)
-            if not data:
+            tmp = client_socket.recv(1024).decode()
+            recv_data += tmp
+            if not recv_data:
                 evt_queue.append(make_data(evt='quit', id=id))
                 break
-            for data in data.decode()[:-1].split('#'):
+            split_data = recv_data.split('#')
+            if recv_data[-1] != '#':
+                recv_data = split_data[-1]
+                split_data = split_data[:-1]
+            else:
+                recv_data = ""
+
+            for data in split_data:
+                if data == "":
+                    continue
                 jsonData = json.loads(data)
                 keys = jsonData.keys()
                 if jsonData['evt'] == 'join':
