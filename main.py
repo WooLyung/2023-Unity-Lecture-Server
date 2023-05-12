@@ -10,7 +10,7 @@ def threaded(client_socket, addr):
                 print('client disconnected: ', addr[0], ':', addr[1], sep='')
                 break
             print('Received from ' + addr[0], ':', addr[1], data.decode())
-            # client_socket.send(data)
+            client_socket.send(data)
         except ConnectionResetError as e:
             print('client disconnected: ', addr[0], ':', addr[1], sep='')
             break
