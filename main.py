@@ -2,6 +2,8 @@ import socket
 import json
 import time
 import threading
+import random
+import asyncio
 from _thread import *
 
 joins = dict()
@@ -12,45 +14,43 @@ def make_data(**datas):
     return datas
 
 def evt_thread():
-    while True:
-        begin_time = time.time()
-        while len(evt_queue) > 0:
-            evt = evt_queue.pop(0)
-            # print(evt)
-            if evt['evt'] == 'join':
-                print(evt)
-                lock.acquire()
-                lock.release()
-            elif evt['evt'] == 'quit':
-                print(evt)
-                lock.acquire()
-                if evt['id'] in joins.keys():
-                    try:
-                        joins[evt['id']].close()
-                    except Exception:
-                        ''
-                    del joins[evt['id']]
-                lock.release()
-            elif evt['evt'] == 'update':
-                if evt['id'] in joins.keys():
-                    joins[evt['id']]['x'] = evt['x']
-                    joins[evt['id']]['y'] = evt['y']
-                    joins[evt['id']]['angle'] = evt['angle']
-        items = list(joins.items())
-        for id, player in items:
-            players = []
-            try:
-                for id2, player2 in items:
-                    if id != id2:
-                        players.append(make_data(id=id2, hp=player2['hp'], x=round(player2['x'], 2), y=round(player2['y'], 2), angle=round(player2['angle'], 2)))
-                message = str(json.dumps(make_data(evt='update', hp=player['hp'], others=players)) + "#")
-                player['sock'].send(message.encode())
-            except Exception:
-                ''
-        end_time = time.time()
-        wait_time = 0.2 - (end_time - begin_time)
-        if wait_time > 0:
-            time.sleep(wait_time)
+    loop = asyncio.new_event_loop()
+    if True:
+        while True:
+            begin_time = time.time()
+            while len(evt_queue) > 0:
+                evt = evt_queue.pop(0)
+                if evt['evt'] == 'join':
+                    print(evt)
+                    lock.acquire()
+                    lock.release()
+                elif evt['evt'] == 'quit':
+                    print(evt)
+                    lock.acquire()
+                    if evt['id'] in joins.keys():
+                        try:
+                            joins[evt['id']].close()
+                        except Exception:
+                            ''
+                        del joins[evt['id']]
+                    lock.release()
+            items = list(joins.items())
+            for id, player in items:
+                players = []
+                try:
+                    for id2, player2 in items:
+                        #if id != id2:
+                        if True:
+                            players.append(make_data(id=id2, hp=player2['hp'], x=round(player2['x'], 2), y=round(player2['y'], 2), angle=round(player2['angle'], 2)))
+                    message = str(json.dumps(make_data(evt='update', hp=player['hp'], others=players)) + "#")
+                    player['sock'].send(message.encode())
+                    print(message)
+                except Exception:
+                    ''
+            end_time = time.time()
+            wait_time = 0.05 - (end_time - begin_time)
+            if wait_time > 0:
+                time.sleep(wait_time)
 
 def threaded(client_socket, addr, id):
     print('client connected: ', addr[0], ':', addr[1], ' with id ', id, sep='')
@@ -93,10 +93,9 @@ def threaded(client_socket, addr, id):
                     lock.release()
 
                 if jsonData['evt'] == 'update':
-                    x = jsonData['x']
-                    y = jsonData['y']
-                    angle = jsonData['angle']
-                    evt_queue.append(make_data(evt='update', id=id, x=x, y=y, angle=angle))
+                    joins[id]['x'] = jsonData['x']
+                    joins[id]['y'] = jsonData['y']
+                    joins[id]['angle'] = jsonData['angle']
 
         except ConnectionResetError:
             evt_queue.append(make_data(evt='quit', id=id))
@@ -116,6 +115,8 @@ PORT = 9172
 
 server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
+server_socket.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)
+server_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, True)
 server_socket.bind((HOST, PORT))
 server_socket.listen()
 
@@ -127,6 +128,8 @@ start_new_thread(evt_thread, ())
 global_id = 0
 while True:
     client_socket, addr = server_socket.accept()
+    client_socket.setsockopt(socket.IPPROTO_TCP, socket.TCP_NODELAY, True)
+    client_socket.setsockopt(socket.SOL_SOCKET, socket.SO_SNDBUF, 65536)
     start_new_thread(threaded, (client_socket, addr, global_id))
     global_id += 1
 
