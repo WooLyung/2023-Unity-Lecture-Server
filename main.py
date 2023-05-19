@@ -1,10 +1,12 @@
 import socket
 import json
 import time
+import threading
 from _thread import *
 
 joins = dict()
 evt_queue = list()
+lock = threading.Lock()
 
 def make_data(**datas):
     return datas
@@ -15,14 +17,19 @@ def evt_thread():
             evt = evt_queue.pop(0)
             # print(evt)
             if evt['evt'] == 'join':
-                ''
+                print(evt)
+                lock.acquire()
+                lock.release()
             elif evt['evt'] == 'quit':
+                print(evt)
+                lock.acquire()
                 if evt['id'] in joins.keys():
                     try:
                         joins[evt['id']].close()
                     except Exception:
                         ''
                     del joins[evt['id']]
+                lock.release()
             elif evt['evt'] == 'update':
                 if evt['id'] in joins.keys():
                     joins[evt['id']]['x'] = evt['x']
@@ -60,16 +67,18 @@ def threaded(client_socket, addr, id):
                 keys = jsonData.keys()
                 if jsonData['evt'] == 'join':
                     if 'nickname' in keys and 'color' in keys:
-                        client_socket.send(json.dumps(make_data(result='success')).encode())
-                        evt_queue.append(make_data(evt='join', id=id))
+                        lock.acquire()
+
                         nickname = jsonData['nickname']
                         color = jsonData['color']
                         x = 0.0
                         y = 0.0
                         angle = 0.0
+                        client_socket.send((json.dumps(make_data(result='success')) + '#').encode())
+                        evt_queue.append(make_data(evt='join', id=id))
                         joins[id] = make_data(nickname=nickname, color=color, hp=100, x=x, y=y, angle=angle, sock=client_socket)
-                    else:
-                        client_socket.send(json.dumps(make_data(result='fail')).encode())
+                        
+                        lock.release()
                 if jsonData['evt'] == 'update':
                     if 'x' in keys and 'y' in keys and 'angle' in keys:
                         x = jsonData['x']
@@ -100,7 +109,7 @@ server_socket.listen()
 
 print('server start')
 
-socket.setdefaulttimeout(1)
+socket.setdefaulttimeout(100)
 start_new_thread(evt_thread, ())
 
 id = 0
