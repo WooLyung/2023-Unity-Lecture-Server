@@ -13,6 +13,7 @@ def make_data(**datas):
 
 def evt_thread():
     while True:
+        begin_time = time.time()
         while len(evt_queue) > 0:
             evt = evt_queue.pop(0)
             # print(evt)
@@ -35,16 +36,21 @@ def evt_thread():
                     joins[evt['id']]['x'] = evt['x']
                     joins[evt['id']]['y'] = evt['y']
                     joins[evt['id']]['angle'] = evt['angle']
-        lock.acquire()
-        for id, player in joins.items():
+        items = list(joins.items())
+        for id, player in items:
             players = []
-            for id2, player2 in joins.items():
-                if id != id2:
-                    players.append(make_data(id=id2, hp=player2['hp'], x=round(player2['x'], 2), y=round(player2['y'], 2), angle=round(player2['angle'], 2)))
-            message = str(json.dumps(make_data(evt='update', hp=player['hp'], others=players)) + "#")
-            player['sock'].send(message.encode())
-        lock.release()
-        time.sleep(0.05)
+            try:
+                for id2, player2 in items:
+                    if id != id2:
+                        players.append(make_data(id=id2, hp=player2['hp'], x=round(player2['x'], 2), y=round(player2['y'], 2), angle=round(player2['angle'], 2)))
+                message = str(json.dumps(make_data(evt='update', hp=player['hp'], others=players)) + "#")
+                player['sock'].send(message.encode())
+            except Exception:
+                ''
+        end_time = time.time()
+        wait_time = 0.2 - (end_time - begin_time)
+        if wait_time > 0:
+            time.sleep(wait_time)
 
 def threaded(client_socket, addr, id):
     print('client connected: ', addr[0], ':', addr[1], ' with id ', id, sep='')
