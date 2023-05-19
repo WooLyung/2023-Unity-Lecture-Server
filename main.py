@@ -35,16 +35,19 @@ def evt_thread():
                     joins[evt['id']]['x'] = evt['x']
                     joins[evt['id']]['y'] = evt['y']
                     joins[evt['id']]['angle'] = evt['angle']
+        lock.acquire()
         for id, player in joins.items():
             players = []
             for id2, player2 in joins.items():
                 if id != id2:
-                    players.append(make_data(id=id2, hp=player2['hp'], x=player2['x'], y=player2['y'], angle=player2['angle']))
-            player['sock'].send(str(json.dumps(make_data(evt='update', hp=player['hp'], others=players)) + "#").encode())
+                    players.append(make_data(id=id2, hp=player2['hp'], x=round(player2['x'], 2), y=round(player2['y'], 2), angle=round(player2['angle'], 2)))
+            message = str(json.dumps(make_data(evt='update', hp=player['hp'], others=players)) + "#")
+            player['sock'].send(message.encode())
+        lock.release()
         time.sleep(0.05)
 
 def threaded(client_socket, addr, id):
-    print('client connected: ', addr[0], ':', addr[1], sep='')
+    print('client connected: ', addr[0], ':', addr[1], ' with id ', id, sep='')
     recv_data = ""
     while True:
         try:
@@ -63,28 +66,31 @@ def threaded(client_socket, addr, id):
             for data in split_data:
                 if data == "":
                     continue
-                jsonData = json.loads(data)
-                keys = jsonData.keys()
-                if jsonData['evt'] == 'join':
-                    if 'nickname' in keys and 'color' in keys:
-                        lock.acquire()
 
-                        nickname = jsonData['nickname']
-                        color = jsonData['color']
-                        x = 0.0
-                        y = 0.0
-                        angle = 0.0
-                        client_socket.send((json.dumps(make_data(result='success')) + '#').encode())
-                        evt_queue.append(make_data(evt='join', id=id))
-                        joins[id] = make_data(nickname=nickname, color=color, hp=100, x=x, y=y, angle=angle, sock=client_socket)
-                        
-                        lock.release()
+                jsonData = json.loads(data)
+                if jsonData['evt'] == 'join':
+                    lock.acquire()
+                    nickname = jsonData['nickname']
+                    color = jsonData['color']
+                    x = 0.0
+                    y = 0.0
+                    angle = 0.0
+                    hp = 100
+                    mapp = []
+                    others = []
+                    for id0, other in joins.items():
+                        others.append(make_data(id=id0, nickname=other['nickname'], color=other['color'], x=round(other['x'], 2), y=round(other['y'], 2), angle=round(other['angle'], 2), hp=other['hp']))
+                    client_socket.send(str(json.dumps(make_data(id=id, nickname=nickname, color=color, x=x, y=y, hp=hp, map=mapp, others=others)) + '#').encode())
+                    evt_queue.append(make_data(evt='join', id=id, nickname=nickname, color=color, hp=hp, x=x, y=y, angle=angle))
+                    joins[id] = make_data(nickname=nickname, color=color, hp=hp, x=x, y=y, angle=angle, sock=client_socket)
+                    print('join', id)
+                    lock.release()
+
                 if jsonData['evt'] == 'update':
-                    if 'x' in keys and 'y' in keys and 'angle' in keys:
-                        x = jsonData['x']
-                        y = jsonData['y']
-                        angle = jsonData['angle']
-                        evt_queue.append(make_data(evt='update', id=id, x=x, y=y, angle=angle))
+                    x = jsonData['x']
+                    y = jsonData['y']
+                    angle = jsonData['angle']
+                    evt_queue.append(make_data(evt='update', id=id, x=x, y=y, angle=angle))
 
         except ConnectionResetError:
             evt_queue.append(make_data(evt='quit', id=id))
@@ -109,13 +115,13 @@ server_socket.listen()
 
 print('server start')
 
-socket.setdefaulttimeout(100)
+socket.setdefaulttimeout(2)
 start_new_thread(evt_thread, ())
 
-id = 0
+global_id = 0
 while True:
     client_socket, addr = server_socket.accept()
-    start_new_thread(threaded, (client_socket, addr, id))
-    id += 1
+    start_new_thread(threaded, (client_socket, addr, global_id))
+    global_id += 1
 
 server_socket.close()
