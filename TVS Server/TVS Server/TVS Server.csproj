@@ -9,8 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="Event\Emit\" />
-    <Folder Include="Event\On\" />
+    <Folder Include="Player\" />
   </ItemGroup>
 
 </Project>

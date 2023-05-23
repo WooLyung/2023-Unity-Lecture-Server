@@ -1,0 +1,5 @@
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\TVS Server\TVS Server\obj\Debug\netcoreapp2.1\TVS Server.csproj.AssemblyReference.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\TVS Server\TVS Server\obj\Debug\netcoreapp2.1\TVS Server.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\TVS Server\TVS Server\obj\Debug\netcoreapp2.1\TVS Server.AssemblyInfoInputs.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\TVS Server\TVS Server\obj\Debug\netcoreapp2.1\TVS Server.AssemblyInfo.cs
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\TVS Server\TVS Server\obj\Debug\netcoreapp2.1\TVS Server.csproj.CoreCompileInputs.cache
