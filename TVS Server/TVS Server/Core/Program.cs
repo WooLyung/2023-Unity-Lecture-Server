@@ -1,4 +1,4 @@
-﻿namespace TVS_Server
+﻿namespace TVS_Server.Core
 {
     public class Program
     {
