@@ -22,7 +22,7 @@ namespace TVS_Server.Core
         {
             try
             {
-                IPEndPoint endPoint = new IPEndPoint(IPAddress.Parse("127.0.0.1"), port);
+                IPEndPoint endPoint = new IPEndPoint(IPAddress.Any, port);
                 socket = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
                 socket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
                 socket.ReceiveBufferSize = 8192;
