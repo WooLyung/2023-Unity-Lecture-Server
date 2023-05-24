@@ -85,7 +85,7 @@ namespace TVS_Server.Core
                     Log("ERROR", e.Message);
                 }
 
-                Thread.Sleep(50);
+                Thread.Sleep(20);
             }
         }
     }
