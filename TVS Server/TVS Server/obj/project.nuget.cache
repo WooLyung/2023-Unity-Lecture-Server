@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "ShKLqi8jJ4jtTz0yZ6M9PB3oxWUG4LpNU1n3X/KV0cpcBaN14pBAEUSM0+ju/tdmHNtKnEE15Uh/zTBiMzRHaQ==",
+  "dgSpecHash": "AZ6OqhLVZUxsdWtvy58PNSejwvTEBJzKO/8WX0CrP8xOIbaeMy7Hi/YTDFSMczIKOytxUh40f3wF/ewVnW4w6A==",
   "success": true,
   "projectFilePath": "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\TVS Server\\TVS Server\\TVS Server.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\6.0.13\\microsoft.netcore.app.runtime.linux-x64.6.0.13.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\6.0.13\\microsoft.aspnetcore.app.runtime.linux-x64.6.0.13.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\6.0.13\\microsoft.netcore.app.host.linux-x64.6.0.13.nupkg.sha512"
+  ],
   "logs": []
 }
