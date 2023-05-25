@@ -18,6 +18,12 @@ namespace TVS_Server.Core
             Console.WriteLine("[" + DateTime.Now.ToString("yyyy-MM-dd/hh:mm:ss") + "] [" + head + "] " + log);
         }
 
+        public void Disconnect(int id)
+        {
+            Client client;
+            Clients.TryRemove(id, out client);
+        }
+
         public void Start(int port)
         {
             try
@@ -37,6 +43,10 @@ namespace TVS_Server.Core
                 while (true)
                 {
                     Socket clientSocket = socket.Accept();
+                    clientSocket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
+                    clientSocket.ReceiveBufferSize = 8192;
+                    clientSocket.ReceiveTimeout = 1000;
+                    clientSocket.SendTimeout = 1000;
                     Client client = new Client(clientSocket, this, id);
                     Clients.TryAdd(id, client);
                     client.Start();

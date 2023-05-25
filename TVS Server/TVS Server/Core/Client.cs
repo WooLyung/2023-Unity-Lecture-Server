@@ -12,6 +12,8 @@ namespace TVS_Server.Core
         private Socket socket;
         private Thread thread;
         private int id;
+        private bool isRunning = true;
+
         public PlayerData playerData { get; private set; }
         
         public Client(Socket socket, Server server, int id)
@@ -29,18 +31,28 @@ namespace TVS_Server.Core
 
         public void ThreadFunction()
         {
-            Server.Log("INFO", "client connected");
+            Server.Log("INFO", $"client #{id} connected");
 
-            while (true)
+            while (isRunning)
             {
-                // 타임 아웃에서 종료 처리
-
                 try
                 {
+                    if (!socket.Connected)
+                    {
+                        Disconnect();
+                        break;
+                    }
+
                     byte[] intBuffer = new byte[4];
                     int byteReceived;
 
                     byteReceived = socket.Receive(intBuffer);
+                    if (byteReceived == 0)
+                    {
+                        Disconnect();
+                        break;
+                    }
+
                     int size = BitConverter.ToInt32(intBuffer);
                     byteReceived = socket.Receive(intBuffer);
                     int code = BitConverter.ToInt32(intBuffer);
@@ -104,11 +116,29 @@ namespace TVS_Server.Core
                         playerData.angle = evt.angle;
                     }
                 }
+                catch (SocketException e)
+                {
+                    if (e.SocketErrorCode == SocketError.TimedOut)
+                    {
+                        Disconnect();
+                        break;
+                    }
+                    Server.Log("ERROR", e.Message);
+                }
                 catch (Exception e)
                 {
                     Server.Log("ERROR", e.Message);
                 }
             }
+        }
+
+        private void Disconnect()
+        {
+            isRunning = false;
+            if (!socket.Connected)
+                socket.Disconnect(true);
+            server.Disconnect(id);
+            Server.Log("INFO", $"client #{id} disconnected");
         }
     }
 }
