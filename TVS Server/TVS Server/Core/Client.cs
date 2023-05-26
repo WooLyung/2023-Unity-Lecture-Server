@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Net.Sockets;
 using TVS_Server.Event.Emit;
+using TVS_Server.Event.Inter;
 using TVS_Server.Event.On;
 using TVS_Server.Player;
 
@@ -80,7 +81,15 @@ namespace TVS_Server.Core
                         playerData.color = evt.color;
                         playerData.status = 1;
 
-                        // 모두에게 join을 알림
+                        InterEvent_Join inter = new InterEvent_Join();
+                        inter.x = playerData.x;
+                        inter.y = playerData.y;
+                        inter.angle = playerData.angle;
+                        inter.hp = playerData.hp;
+                        inter.nickname = playerData.nickname;
+                        inter.color = playerData.color;
+                        inter.id = id;
+                        server.EventQueue.Enqueue(inter);
 
                         EmitEvent_Init emit = new EmitEvent_Init();
                         emit.x = playerData.x;
@@ -89,9 +98,7 @@ namespace TVS_Server.Core
                         emit.nickname = playerData.nickname;
                         emit.color = playerData.color;
                         emit.id = id;
-                        
                         emit.map = new List<EmitEvent_Init.Map>();
-                        
                         emit.others = new List<EmitEvent_Init.Other>();
                         foreach (var pair in server.Clients)
                         {
@@ -138,7 +145,6 @@ namespace TVS_Server.Core
             if (!socket.Connected)
                 socket.Disconnect(true);
             server.Disconnect(id);
-            Server.Log("INFO", $"client #{id} disconnected");
         }
     }
 }
