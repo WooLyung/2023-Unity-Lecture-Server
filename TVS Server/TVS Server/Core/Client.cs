@@ -125,13 +125,8 @@ namespace TVS_Server.Core
                 }
                 catch (SocketException e)
                 {
-                    if (e.SocketErrorCode == SocketError.TimedOut
-                        || e.SocketErrorCode == SocketError.ConnectionReset)
-                    {
-                        Disconnect();
-                        break;
-                    }
-                    Server.Log("ERROR", $"{e.SocketErrorCode} : {e.Message}");
+                    Disconnect();
+                    break;
                 }
                 catch (Exception e)
                 {
