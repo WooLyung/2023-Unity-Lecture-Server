@@ -100,6 +100,7 @@ namespace TVS_Server.Core
                         emit.id = id;
                         emit.map = new List<EmitEvent_Init.Map>();
                         emit.others = new List<EmitEvent_Init.Other>();
+
                         foreach (var pair in server.Clients)
                         {
                             Client cl = pair.Value;
@@ -110,6 +111,7 @@ namespace TVS_Server.Core
                             other.hp = cl.playerData.hp;
                             other.nickname = cl.playerData.nickname;
                             other.color = cl.playerData.color;
+                            other.id = pair.Key;
                             emit.others.Add(other);
                         }
 
