@@ -102,6 +102,7 @@ namespace TVS_Server.Core
                         player.y = playerData.y;
                         player.angle = playerData.angle;
                         player.id = pair.Key;
+                        player.hp = playerData.hp;
                         emit.players.Add(player);
                     }
 

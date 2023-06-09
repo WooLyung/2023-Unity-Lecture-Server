@@ -17,6 +17,7 @@ namespace TVS_Server.Event.Emit
             public float x;
             public float y;
             public float angle;
+            public int hp;
 
             public byte[] ToBinary()
             {
@@ -24,7 +25,8 @@ namespace TVS_Server.Event.Emit
                     ByteUtil.From(id),
                     ByteUtil.From(x),
                     ByteUtil.From(y),
-                    ByteUtil.From(angle)
+                    ByteUtil.From(angle),
+                    ByteUtil.From(hp)
                 });
             }
         }
