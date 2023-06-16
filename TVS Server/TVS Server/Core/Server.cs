@@ -87,6 +87,12 @@ namespace TVS_Server.Core
                             case InterEvent_Leave x:
                                 OnLeave(x);
                                 break;
+                            case InterEvent_Damage x:
+                                OnDamage(x);
+                                break;
+                            case InterEvent_Death x:
+                                OnDeath(x);
+                                break;
                         }
                     }
 
@@ -119,6 +125,33 @@ namespace TVS_Server.Core
             }
         }
 
+        private void OnDeath(InterEvent_Death evt)
+        {
+            EmitEvent_Death emit = new EmitEvent_Death(evt);
+            byte[] binary = emit.ToBinary();
+            foreach (var pair in Clients)
+                if (pair.Key != evt.victim)
+                    pair.Value.EmitEvent(binary);
+
+            Log("INFO", $"client #{evt.id} was killed");
+        }
+
+        private void OnDamage(InterEvent_Damage evt)
+        {
+            EmitEvent_Damage emit = new EmitEvent_Damage(evt);
+            byte[] binary = emit.ToBinary();
+            foreach (var pair in Clients)
+                if (pair.Key != evt.victim)
+                    pair.Value.EmitEvent(binary);
+
+            Client victim;
+            Clients.TryGetValue(evt.victim, out victim);
+            if (victim != null)
+                victim.Damage(evt.id, evt.damage);
+
+            Log("INFO", $"#{evt.victim} was damaged by #{evt.id} with {evt.damage} damage");
+        }
+
         private void OnJoin(InterEvent_Join evt)
         {
             EmitEvent_Join emit = new EmitEvent_Join(evt);
@@ -127,7 +160,7 @@ namespace TVS_Server.Core
                 if (pair.Key != evt.id)
                     pair.Value.EmitEvent(binary);
 
-            Server.Log("INFO", $"client #{evt.id} joined");
+            Log("INFO", $"client #{evt.id} joined");
         }
 
         private void OnLeave(InterEvent_Leave evt)
@@ -138,7 +171,7 @@ namespace TVS_Server.Core
                 if (pair.Key != evt.id)
                     pair.Value.EmitEvent(binary);
 
-            Server.Log("INFO", $"client #{evt.id} disconnected");
+            Log("INFO", $"client #{evt.id} disconnected");
         }
     }
 }

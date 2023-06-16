@@ -30,6 +30,16 @@ namespace TVS_Server.Core
 
         public void EmitEvent(byte[] data) => socket.Send(data);
 
+        public void Damage(int id, int damage)
+        {
+            playerData.hp -= damage;
+            if (playerData.hp <= 0)
+            {
+                playerData.hp = 0;
+                Death(id);
+            }
+        }
+
         public void ThreadFunction()
         {
             Server.Log("INFO", $"client #{id} connected");
@@ -124,6 +134,15 @@ namespace TVS_Server.Core
                         playerData.y = evt.y;
                         playerData.angle = evt.angle;
                     }
+                    else if (code == 2) // damage
+                    {
+                        OnEvent_Damage evt = new OnEvent_Damage(dataBuffer);
+                        InterEvent_Damage inter = new InterEvent_Damage();
+                        inter.id = evt.id;
+                        inter.victim = evt.victim;
+                        inter.damage = evt.damage;
+                        server.EventQueue.Enqueue(inter);
+                    }
                 }
                 catch (SocketException e)
                 {
@@ -143,6 +162,17 @@ namespace TVS_Server.Core
             if (!socket.Connected)
                 socket.Disconnect(true);
             server.Disconnect(id);
+        }
+
+        private void Death(int id)
+        {
+            isRunning = false;
+            if (!socket.Connected)
+                socket.Disconnect(true);
+            InterEvent_Death inter = new InterEvent_Death();
+            inter.id = id;
+            inter.victim = this.id;
+            server.EventQueue.Enqueue(inter);
         }
     }
 }
