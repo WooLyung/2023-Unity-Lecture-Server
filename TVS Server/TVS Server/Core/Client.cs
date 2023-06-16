@@ -169,6 +169,7 @@ namespace TVS_Server.Core
             isRunning = false;
             if (!socket.Connected)
                 socket.Disconnect(true);
+            server.Disconnect(id);
             InterEvent_Death inter = new InterEvent_Death();
             inter.id = id;
             inter.victim = this.id;

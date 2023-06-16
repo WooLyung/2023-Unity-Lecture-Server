@@ -147,7 +147,7 @@ namespace TVS_Server.Core
             Client victim;
             Clients.TryGetValue(evt.victim, out victim);
             if (victim != null)
-                victim.Damage(evt.id, evt.damage);
+                victim.Damage(evt.victim, evt.damage);
 
             Log("INFO", $"#{evt.victim} was damaged by #{evt.id} with {evt.damage} damage");
         }
