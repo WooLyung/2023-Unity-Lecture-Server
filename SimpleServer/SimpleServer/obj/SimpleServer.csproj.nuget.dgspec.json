@@ -1,17 +1,17 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\TVS Server\\TVS Server\\TVS Server.csproj": {}
+    "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\SimpleServer\\SimpleServer\\SimpleServer.csproj": {}
   },
   "projects": {
-    "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\TVS Server\\TVS Server\\TVS Server.csproj": {
+    "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\SimpleServer\\SimpleServer\\SimpleServer.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\TVS Server\\TVS Server\\TVS Server.csproj",
-        "projectName": "TVS Server",
-        "projectPath": "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\TVS Server\\TVS Server\\TVS Server.csproj",
+        "projectUniqueName": "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\SimpleServer\\SimpleServer\\SimpleServer.csproj",
+        "projectName": "SimpleServer",
+        "projectPath": "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\SimpleServer\\SimpleServer\\SimpleServer.csproj",
         "packagesPath": "C:\\Users\\DELL\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\TVS Server\\TVS Server\\obj\\",
+        "outputPath": "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\SimpleServer\\SimpleServer\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
           "C:\\Users\\DELL\\AppData\\Roaming\\NuGet\\NuGet.Config",

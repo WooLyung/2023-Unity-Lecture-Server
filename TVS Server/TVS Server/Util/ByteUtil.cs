@@ -56,7 +56,7 @@ namespace TVS_Server.Util
         {
             return BitConverter.ToInt32(data, offset);
         }
-
+            
         public static float ToFloat(byte[] data, int offset)
         {
             return BitConverter.ToSingle(data, offset);

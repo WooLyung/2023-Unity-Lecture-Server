@@ -1,0 +1,15 @@
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\bin\Debug\net6.0\SimpleServer.exe
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\bin\Debug\net6.0\SimpleServer.deps.json
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\bin\Debug\net6.0\SimpleServer.runtimeconfig.json
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\bin\Debug\net6.0\SimpleServer.dll
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\bin\Debug\net6.0\SimpleServer.pdb
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\SimpleServer.csproj.AssemblyReference.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\SimpleServer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\SimpleServer.AssemblyInfoInputs.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\SimpleServer.AssemblyInfo.cs
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\SimpleServer.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\SimpleServer.dll
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\refint\SimpleServer.dll
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\SimpleServer.pdb
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\SimpleServer.genruntimeconfig.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServer\SimpleServer\obj\Debug\net6.0\ref\SimpleServer.dll
