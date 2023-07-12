@@ -1,8 +1,12 @@
 {
   "version": 2,
-  "dgSpecHash": "Hw47tusuQV0jCsSpDyBY34V43BiE1BfKCEriJF9vDVEOnMhujHJQjYS3TGHXzO2ghAKPzXBKMmoYTWx4vDM4+Q==",
+  "dgSpecHash": "nIdFVgljyW7FMXKP3Na9VVVaDPADSY7FOvtOekfDH5WhXVnk7Oj12j//byUfrYCWQcOC2iSOhC4bOj6ennYjBg==",
   "success": true,
   "projectFilePath": "C:\\Users\\DELL\\Desktop\\2023-Unity-Lecture-Server\\SimpleServer\\SimpleServer\\SimpleServer.csproj",
-  "expectedPackageFiles": [],
+  "expectedPackageFiles": [
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.app.runtime.linux-x64\\6.0.13\\microsoft.netcore.app.runtime.linux-x64.6.0.13.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.aspnetcore.app.runtime.linux-x64\\6.0.13\\microsoft.aspnetcore.app.runtime.linux-x64.6.0.13.nupkg.sha512",
+    "C:\\Users\\DELL\\.nuget\\packages\\microsoft.netcore.app.host.linux-x64\\6.0.13\\microsoft.netcore.app.host.linux-x64.6.0.13.nupkg.sha512"
+  ],
   "logs": []
 }

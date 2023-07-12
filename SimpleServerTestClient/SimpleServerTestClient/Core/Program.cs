@@ -11,15 +11,14 @@ namespace SimpleServerTestClient.Core
     {
         public static void Main(string[] args)
         {
-            ServerAPI.Start("TestGroup");
-
-            ServerAPI.PostServerData("X", new PostData()
-                .AddIntArray(new int[] { 1, 2, 3, 4 }));
-
-            GetData getData = ServerAPI.GetServerData("X");
-            int[] v = getData.GetIntArray();
-            foreach (int i in v)
-                Console.WriteLine(i);
+            ServerAPI.Start("B");
+            while (true)
+            {
+                if (ServerAPI.GetClientData(out GetData getData))
+                {
+                    Console.WriteLine(getData.GetString());
+                }
+            }
         }
     }
 }
