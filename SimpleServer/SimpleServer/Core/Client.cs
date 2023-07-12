@@ -1,6 +1,7 @@
 ﻿using SimpleServer.Data;
 using SimpleServer.Util;
 using System;
+using System.Collections.Generic;
 using System.Net.Sockets;
 
 namespace SimpleServer.Core
@@ -112,7 +113,15 @@ namespace SimpleServer.Core
                         byte[] data = new byte[size - 4 - len];
                         Array.Copy(dataBuffer, 4 + len, data, 0, size - 4 - len);
 
-                        server.ServerData.TryAdd(key, data);
+                        if (!server.ServerData.TryAdd(key, data))
+                        {
+                            while (true)
+                            {
+                                byte[] existing = server.ServerData[key];
+                                if (server.ServerData.TryUpdate(key, data, existing))
+                                    break;
+                            }
+                        }
                         Server.Log("INFO", $"client #{id} updated server data with key {key}.");
                     }
                     else if (code == 3) // post client data

@@ -11,7 +11,7 @@ using System.Drawing;
 using System.Threading;
 using System.Collections.Concurrent;
 
-namespace SimpleServerTestClient.API
+namespace SimpleServerAPI.API
 {
     class ServerAPI
     {

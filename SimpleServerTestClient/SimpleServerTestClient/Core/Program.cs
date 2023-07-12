@@ -1,23 +1,28 @@
-﻿using SimpleServerTestClient.API;
+﻿using SimpleServerAPI.API;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace SimpleServerTestClient.Core
+namespace SimpleServerAPI.Core
 {
     public class Program
     {
         public static void Main(string[] args)
         {
-            ServerAPI.Start("B");
-            while (true)
+            ServerAPI.Start("GroupName");
+            GetData getData = ServerAPI.GetServerData("MyKey");
+            if (getData == null)
             {
-                if (ServerAPI.GetClientData(out GetData getData))
-                {
-                    Console.WriteLine(getData.GetString());
-                }
+                ServerAPI.PostServerData("MyKey", new PostData().AddInt(0));
+            }
+            else
+            {
+                int value = getData.GetInt();
+                ServerAPI.PostServerData("MyKey", new PostData().AddInt(value + 1));
+
+                Console.WriteLine(value);
             }
         }
     }
