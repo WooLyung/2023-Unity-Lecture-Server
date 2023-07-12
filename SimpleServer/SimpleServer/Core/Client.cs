@@ -113,7 +113,7 @@ namespace SimpleServer.Core
                         Array.Copy(dataBuffer, 4 + len, data, 0, size - 4 - len);
 
                         server.ServerData.TryAdd(key, data);
-                        Server.Log("INFO", $"client #{id} updated data with key {key}.");
+                        Server.Log("INFO", $"client #{id} updated server data with key {key}.");
                     }
                     else if (code == 3) // post client data
                     {

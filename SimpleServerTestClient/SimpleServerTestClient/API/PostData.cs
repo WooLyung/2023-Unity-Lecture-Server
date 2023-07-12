@@ -28,6 +28,30 @@ namespace SimpleServerTestClient.API
             return this;
         }
 
+        public PostData AddIntArray(int[] value)
+        {
+            AddInt(value.Length);
+            foreach (var v in value)
+                AddInt(v);
+            return this;
+        }
+
+        public PostData AddFloatArray(float[] value)
+        {
+            AddInt(value.Length);
+            foreach (var v in value)
+                AddFloat(v);
+            return this;
+        }
+
+        public PostData AddStringArray(string[] value)
+        {
+            AddInt(value.Length);
+            foreach (var v in value)
+                AddString(v);
+            return this;
+        }
+
         public byte[] ToBinary()
         {
             int size = 0;

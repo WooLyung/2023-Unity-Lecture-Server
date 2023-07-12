@@ -12,21 +12,14 @@ namespace SimpleServerTestClient.Core
         public static void Main(string[] args)
         {
             ServerAPI.Start("TestGroup");
-       
-            GetData getData = ServerAPI.GetServerData("XX");
-            Console.WriteLine(getData.GetInt());
-            Console.WriteLine(getData.GetFloat());
-            Console.WriteLine(getData.GetString());
 
-            getData = ServerAPI.GetServerData("XX");
-            Console.WriteLine(getData.GetInt());
-            Console.WriteLine(getData.GetFloat());
-            Console.WriteLine(getData.GetString());
+            ServerAPI.PostServerData("X", new PostData()
+                .AddIntArray(new int[] { 1, 2, 3, 4 }));
 
-            getData = ServerAPI.GetServerData("XX");
-            Console.WriteLine(getData.GetInt());
-            Console.WriteLine(getData.GetFloat());
-            Console.WriteLine(getData.GetString());
+            GetData getData = ServerAPI.GetServerData("X");
+            int[] v = getData.GetIntArray();
+            foreach (int i in v)
+                Console.WriteLine(i);
         }
     }
 }

@@ -36,5 +36,32 @@ namespace SimpleServerTestClient.API
             offset += 4 + value.Length;
             return value;
         }
+
+        public int[] GetIntArray()
+        {
+            int len = GetInt();
+            int[] result = new int[len];
+            for (int i = 0; i < len; i++)
+                result[i] = GetInt();
+            return result;
+        }
+
+        public float[] GetFloatArray()
+        {
+            int len = GetInt();
+            float[] result = new float[len];
+            for (int i = 0; i < len; i++)
+                result[i] = GetFloat();
+            return result;
+        }
+
+        public string[] GetStringArray()
+        {
+            int len = GetInt();
+            string[] result = new string[len];
+            for (int i = 0; i < len; i++)
+                result[i] = GetString();
+            return result;
+        }
     }
 }
