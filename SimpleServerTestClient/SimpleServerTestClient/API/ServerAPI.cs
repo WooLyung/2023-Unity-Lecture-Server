@@ -9,6 +9,7 @@ using System.Threading.Tasks;
 using System.Diagnostics;
 using System.Drawing;
 using System.Threading;
+using System.Collections.Concurrent;
 
 namespace SimpleServerTestClient.API
 {
@@ -35,6 +36,7 @@ namespace SimpleServerTestClient.API
         public bool isRunning { private set; get; } = true;
 
         private byte[] preServerData = null;
+        private ConcurrentQueue<GetData> dataQueue = new ConcurrentQueue<GetData>();
 
         private void Disconnect()
         {
@@ -108,7 +110,7 @@ namespace SimpleServerTestClient.API
                     }
                     else if (code == 1) // client data
                     {
-
+                        dataQueue.Enqueue(new GetData(dataBuffer));
                     }
                 }
                 catch (Exception e)
@@ -153,7 +155,7 @@ namespace SimpleServerTestClient.API
             Instance._Start(group);
         }
 
-        private void _SetServerData(string key, byte[] data)
+        private void PostServerData(string key, byte[] data)
         {
             byte[] b0 = ByteUtil.From(2);
             byte[] b1 = ByteUtil.From(key);
@@ -168,64 +170,14 @@ namespace SimpleServerTestClient.API
             Send(result);
         }
 
-        private void _SetServerData(string key, int data)
+        private void PostServerData_(string key, PostData data)
         {
-            _SetServerData(key, ByteUtil.From(data));
+            PostServerData(key, data.ToBinary());
         }
 
-        private void _SetServerData(string key, float data)
+        public static void PostServerData(string key, PostData data)
         {
-            _SetServerData(key, ByteUtil.From(data));
-        }
-
-        private void _SetServerData(string key, string data)
-        {
-            _SetServerData(key, ByteUtil.From(data));
-        }
-
-        private void _SetServerData(string key, int[] data)
-        {
-            _SetServerData(key, ByteUtil.From(data));
-        }
-
-        private void _SetServerData(string key, float[] data)
-        {
-            _SetServerData(key, ByteUtil.From(data));
-        }
-
-        private void _SetServerData(string key, string[] data)
-        {
-            _SetServerData(key, ByteUtil.From(data));
-        }
-
-        public static void SetServerData(string key, int data)
-        {
-            Instance._SetServerData(key, data);
-        }
-
-        public static void SetServerData(string key, float data)
-        {
-            Instance._SetServerData(key, data);
-        }
-
-        public static void SetServerData(string key, string data)
-        {
-            Instance._SetServerData(key, data);
-        }
-
-        public static void SetServerData(string key, int[] data)
-        {
-            Instance._SetServerData(key, data);
-        }
-
-        public static void SetServerData(string key, float[] data)
-        {
-            Instance._SetServerData(key, data);
-        }
-
-        public static void SetServerData(string key, string[] data)
-        {
-            Instance._SetServerData(key, data);
+            Instance.PostServerData_(key, data);
         }
 
         private byte[] RequestServerData(string key)
@@ -247,46 +199,48 @@ namespace SimpleServerTestClient.API
             return o;
         }
 
-        private int GetServerDataInt_(string key, int dvalue)
+        private GetData GetServerData_(string key)
         {
             byte[] data = RequestServerData(key);
-
             if (data.Length == 0)
-                return dvalue;
-            return ByteUtil.ToInt(data, 0);
+                return null;
+            return new GetData(data);
         }
 
-        private float GetServerDataFloat_(string key, float dvalue)
+        public static GetData GetServerData(string key)
         {
-            byte[] data = RequestServerData(key);
-
-            if (data.Length == 0)
-                return dvalue;
-            return ByteUtil.ToFloat(data, 0);
+            return Instance.GetServerData_(key);
         }
 
-        private string GetServerDataString_(string key, string dvalue)
+        private void PostClientData_(string group, PostData data)
         {
-            byte[] data = RequestServerData(key);
+            byte[] b0 = ByteUtil.From(3);
+            byte[] b1 = ByteUtil.From(group);
+            byte[] b2 = data.ToBinary();
+            byte[] bs = ByteUtil.From(b1.Length + b2.Length);
+            byte[] result = new byte[b0.Length + b1.Length + b2.Length + bs.Length];
 
-            if (data.Length == 0)
-                return dvalue;
-            return ByteUtil.ToString(data, 0);
+            Array.Copy(bs, 0, result, 0, bs.Length);
+            Array.Copy(b0, 0, result, bs.Length, b0.Length);
+            Array.Copy(b1, 0, result, bs.Length + b0.Length, b1.Length);
+            Array.Copy(b2, 0, result, bs.Length + b0.Length + b1.Length, b2.Length);
+
+            Send(result);
         }
 
-        public static int GetServerDataInt(string key, int dvalue)
+        public static void PostClientData(string group, PostData data)
         {
-            return Instance.GetServerDataInt_(key, dvalue);
+            Instance.PostClientData_(group, data);
         }
 
-        public static float GetServerDataFloat(string key, float dvalue)
+        private bool GetClientData_(out GetData getData)
         {
-            return Instance.GetServerDataFloat_(key, dvalue);
+            return dataQueue.TryDequeue(out getData);
         }
 
-        public static string GetServerDataString(string key, string dvalue)
+        public static bool GetClientData(out GetData getData)
         {
-            return Instance.GetServerDataString_(key, dvalue);
+            return Instance.GetClientData_(out getData);
         }
     }
 }

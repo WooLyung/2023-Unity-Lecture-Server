@@ -12,10 +12,21 @@ namespace SimpleServerTestClient.Core
         public static void Main(string[] args)
         {
             ServerAPI.Start("TestGroup");
-            ServerAPI.SetServerData("AaAa", 1.414f);
-            Console.WriteLine(
-                ServerAPI.GetServerDataFloat("AaAa", 0.4f)
-            );
+       
+            GetData getData = ServerAPI.GetServerData("XX");
+            Console.WriteLine(getData.GetInt());
+            Console.WriteLine(getData.GetFloat());
+            Console.WriteLine(getData.GetString());
+
+            getData = ServerAPI.GetServerData("XX");
+            Console.WriteLine(getData.GetInt());
+            Console.WriteLine(getData.GetFloat());
+            Console.WriteLine(getData.GetString());
+
+            getData = ServerAPI.GetServerData("XX");
+            Console.WriteLine(getData.GetInt());
+            Console.WriteLine(getData.GetFloat());
+            Console.WriteLine(getData.GetString());
         }
     }
 }

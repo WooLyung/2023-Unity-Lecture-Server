@@ -1,4 +1,5 @@
 ﻿using SimpleServer.Data;
+using SimpleServer.Util;
 using System.Collections.Concurrent;
 using System.Net;
 using System.Net.Sockets;
@@ -80,8 +81,19 @@ namespace SimpleServer.Core
                     while (DataQueue.TryDequeue(out data))
                     {
                         foreach (Client client in Clients.Values)
+                        {
                             if (client.Group == data.Group)
-                                client.EmitEvent(data.ByteData);
+                            {
+                                byte[] bdata = data.ByteData;
+                                byte[] size = ByteUtil.From(bdata.Length);
+                                byte[] code = ByteUtil.From(1);
+                                byte[] result = new byte[8 + bdata.Length];
+                                Array.Copy(size, 0, result, 0, 4);
+                                Array.Copy(code, 0, result, 4, 4);
+                                Array.Copy(bdata, 0, result, 8, bdata.Length);
+                                client.EmitEvent(result);
+                            }
+                        }
                     }
                 }
                 catch (Exception e)

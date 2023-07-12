@@ -124,6 +124,7 @@ namespace SimpleServer.Core
                         Array.Copy(dataBuffer, 4 + len, data, 0, size - 4 - len);
 
                         server.DataQueue.Enqueue(new EventData(group, data));
+                        Server.Log("INFO", $"client #{id} posted data to group named {group}.");
                     }
                 }
                 catch (SocketException e)
