@@ -31,7 +31,6 @@ namespace SimpleServer.Core
 
         public void EmitEvent(byte[] data)
         {
-            // todo : size
             socket.Send(data);
         }
 
@@ -88,10 +87,22 @@ namespace SimpleServer.Core
                         int len = ByteUtil.ToInt(dataBuffer, 0);
                         string key = ByteUtil.ToString(dataBuffer, 4, len);
                         byte[] data;
+
                         if (server.ServerData.TryGetValue(key, out data))
-                            EmitEvent(data);
+                        {
+                            byte[] result = new byte[8 + data.Length];
+                            Array.Copy(ByteUtil.From(data.Length), 0, result, 0, 4);
+                            Array.Copy(ByteUtil.From(0), 0, result, 4, 4);
+                            Array.Copy(data, 0, result, 8, data.Length);
+                            EmitEvent(result);
+                        }
                         else
-                            EmitEvent(null);
+                        {
+                            byte[] result = new byte[8];
+                            Array.Copy(ByteUtil.From(0), 0, result, 0, 4);
+                            Array.Copy(ByteUtil.From(0), 0, result, 4, 4);
+                            EmitEvent(result);
+                        }
                     }
                     else if (code == 2) // set server data
                     {
@@ -102,6 +113,7 @@ namespace SimpleServer.Core
                         Array.Copy(dataBuffer, 4 + len, data, 0, size - 4 - len);
 
                         server.ServerData.TryAdd(key, data);
+                        Server.Log("INFO", $"client #{id} updated data with key {key}.");
                     }
                     else if (code == 3) // post client data
                     {

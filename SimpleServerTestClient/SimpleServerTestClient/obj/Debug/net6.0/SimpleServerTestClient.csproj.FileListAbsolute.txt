@@ -1,0 +1,15 @@
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\SimpleServerTestClient.csproj.AssemblyReference.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\SimpleServerTestClient.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\SimpleServerTestClient.AssemblyInfoInputs.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\SimpleServerTestClient.AssemblyInfo.cs
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\SimpleServerTestClient.csproj.CoreCompileInputs.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\bin\Debug\net6.0\SimpleServerTestClient.exe
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\bin\Debug\net6.0\SimpleServerTestClient.deps.json
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\bin\Debug\net6.0\SimpleServerTestClient.runtimeconfig.json
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\bin\Debug\net6.0\SimpleServerTestClient.dll
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\bin\Debug\net6.0\SimpleServerTestClient.pdb
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\SimpleServerTestClient.dll
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\refint\SimpleServerTestClient.dll
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\SimpleServerTestClient.pdb
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\SimpleServerTestClient.genruntimeconfig.cache
+C:\Users\DELL\Desktop\2023-Unity-Lecture-Server\SimpleServerTestClient\SimpleServerTestClient\obj\Debug\net6.0\ref\SimpleServerTestClient.dll
