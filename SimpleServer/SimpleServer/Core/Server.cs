@@ -50,7 +50,6 @@ namespace SimpleServer.Core
                     Socket clientSocket = socket.Accept();
                     clientSocket.SetSocketOption(SocketOptionLevel.Tcp, SocketOptionName.NoDelay, true);
                     clientSocket.ReceiveBufferSize = 8192;
-                    clientSocket.ReceiveTimeout = 1000;
                     clientSocket.SendTimeout = 1000;
                     Client client = new Client(clientSocket, this, id);
                     Clients.TryAdd(id, client);

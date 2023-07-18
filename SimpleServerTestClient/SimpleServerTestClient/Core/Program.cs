@@ -12,18 +12,9 @@ namespace SimpleServerAPI.Core
         public static void Main(string[] args)
         {
             ServerAPI.Start("GroupName");
-            GetData getData = ServerAPI.GetServerData("MyKey");
-            if (getData == null)
-            {
-                ServerAPI.PostServerData("MyKey", new PostData().AddInt(0));
-            }
-            else
-            {
-                int value = getData.GetInt();
-                ServerAPI.PostServerData("MyKey", new PostData().AddInt(value + 1));
-
-                Console.WriteLine(value);
-            }
+            GetData getData;
+            if (!ServerAPI.GetClientData(out getData))
+                Console.WriteLine("!");
         }
     }
 }

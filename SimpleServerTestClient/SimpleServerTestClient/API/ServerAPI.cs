@@ -29,8 +29,8 @@ namespace SimpleServerAPI.API
 
         // internal
 
-        // private IPAddress ip = IPAddress.Parse("34.64.40.5");
-        private IPAddress ip = IPAddress.Parse("127.0.0.1");
+        private IPAddress ip = IPAddress.Parse("34.64.40.5");
+        // private IPAddress ip = IPAddress.Parse("127.0.0.1");
         private int port = 8462;
         private Socket socket = null;
         public bool isRunning { private set; get; } = true;
